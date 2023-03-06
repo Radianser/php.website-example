@@ -1,0 +1,15 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_URI} !robots.txt
+RewriteCond %{REQUEST_URI} !\.php$
+RewriteRule .* index.php
+
+RewriteCond %{REQUEST_URI} [^(index)]\.(php|html)$
+RewriteRule [^(logout.php$)(cart.php$)] index.php
+
+RewriteCond %{THE_REQUEST} ^.*/index\.(php|html)
+RewriteRule ^(.*)index\.(php|html)$ http://%{HTTP_HOST}/$1 [R=301,L]
+
+</IfModule>

@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: *PHPSESSID=
+Disallow: *session_id=
+Disallow: /.*\.php$
+Disallow: /profile/[0-9]$
+Disallow: /order$
+Disallow: /metatag$
+Disallow: /functions$
+Disallow: /logout$
+Disallow: /success$
+Disallow: /connect$
+Disallow: /cart$
+Disallow: /.+_.+$
+Sitemap: http://localhost/sitemap.xml
