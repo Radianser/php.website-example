@@ -16,14 +16,12 @@
 			<p>10 a.m. - 10 p.m. daily</p>
 		</li>
 		<li class="footer-li">
-			<!-- <div class="socials"> -->
-				<a href="https://vk.com/radiansergames" target="__blank">
-					<img src="/images/vk2.svg" alt="vk" content-type="image/svg+xml" class="img footer-icon" loading="lazy">
-				</a>
-				<a href="https://www.instagram.com/firespectre/" target="__blank">
-					<img src="/images/instagram.svg" alt="instagram" content-type="image/svg+xml" class="img footer-icon" loading="lazy">
-				</a>
-			<!-- </div> -->
+			<a href="https://vk.com/radiansergames" target="__blank">
+				<img src="/images/vk2.svg" alt="vk" content-type="image/svg+xml" class="img footer-icon" loading="lazy">
+			</a>
+			<a href="https://www.instagram.com/firespectre/" target="__blank">
+				<img src="/images/instagram.svg" alt="instagram" content-type="image/svg+xml" class="img footer-icon" loading="lazy">
+			</a>
 		</li>
 	</ul>
 	<div class="copyright">© <?= date('Y'); ?> Some Coffees</div>
