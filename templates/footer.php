@@ -19,8 +19,8 @@
 			<a href="https://vk.com/radiansergames" target="__blank">
 				<img src="/images/vk2.svg" alt="vk" content-type="image/svg+xml" class="img footer-icon" loading="lazy">
 			</a>
-			<a href="https://www.instagram.com/firespectre/" target="__blank">
-				<img src="/images/instagram.svg" alt="instagram" content-type="image/svg+xml" class="img footer-icon" loading="lazy">
+			<a href="" target="__blank">
+				<img src="" alt="" content-type="image/svg+xml" class="img footer-icon" loading="lazy">
 			</a>
 		</li>
 	</ul>
