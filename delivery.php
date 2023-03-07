@@ -5,7 +5,7 @@
 		<h1>Delivery terms</h1>
 		<hr class="left-underline">
 		<br><br>
-		<p>Delivery is available to authorized users with orders over 500 rubles.</p>
+		<p>Delivery is available to authorized users with orders over {{ min }} rubles.</p>
 		<p>Payment upon receipt.</p>
 		<br>
 		<p>We accept cash, payment by terminal, transfer to a credit card.</p>
