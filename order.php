@@ -10,7 +10,7 @@
             :remove-product="removeProduct">
         </shopping-cart>
 
-        <p>* Delivery is available to authorized users with orders over 500 rubles</p>
+        <p>* Delivery is available to authorized users with orders over {{ min }} rubles</p>
         <p>** All authorized users participate in the loyalty program</p>
 
         <?php
