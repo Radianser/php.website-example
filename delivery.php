@@ -1,5 +1,5 @@
 <div class="main">
-    <div class="info">
+	<div class="info">
 		<p class="chain"><a href="/">Main</a> | <a href="/delivery">Delivery</a></p>
 		<p class="headline-text">Wanna get some yummy, but don't wanna come here?</p>
 		<h1>Delivery terms</h1>
