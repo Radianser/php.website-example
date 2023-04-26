@@ -2,6 +2,7 @@
     ob_start();
     session_start();
     // session_destroy();
+    require_once 'connect.php';
     require_once 'functions.php';
     require_once 'metatag.php';
     
