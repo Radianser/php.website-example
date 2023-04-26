@@ -1,7 +1,7 @@
-<?php include 'connect.php' ?>
 <?php
     session_start();
     // session_destroy();
+    require_once 'connect.php';
     require_once 'functions.php';
     $data = json_decode(file_get_contents('php://input'), true);
 
