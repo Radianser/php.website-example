@@ -1,4 +1,3 @@
-<?php include 'connect.php' ?>
 <?php
     $query = "SELECT * FROM categories";
     $result = mysqli_query($link, $query) or die(mysqli_error($link));
