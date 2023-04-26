@@ -40,7 +40,7 @@
                     return $arr;
                 }
             }
-        } else if (preg_match('#^/([a-z]+)\?.+=.+$#', $url, $match)) {
+        } else if (preg_match('#^/([a-z]+)\?(?:.+=.+)+$#', $url, $match)) {
             foreach ($files as $page) {
                 if ($page === $match[1] . '.php') {
                     $arr[] = $match[1];
@@ -101,8 +101,10 @@
         }
     }
     function check_login($login, $link) {
-        $query = "SELECT login FROM users WHERE login='$login'";
-        $user = mysqli_fetch_assoc(mysqli_query($link, $query));
+        $query = "SELECT login FROM users WHERE login=?";
+        $params = [$login];
+        $vartype = 's';
+        $user = execute_query($link, $query, $vartype, $params);
 
         if (empty($user)) {
             return true;
@@ -277,7 +279,7 @@
     function user_registration($login, $birthday_date, $password, $date) {
         $destination = $login;
         $topic = "Confirmation of registration";
-        $text = "Please follow the link below to verify your email.\r\n\r\nhttp://localhost/registry.php?login=$destination&&birthday_date=$birthday_date&&password=$password&&date=$date";
+        $text = "Please follow the link below to verify your email.\r\n\r\nhttp://localhost/registry?login=$destination&&birthday_date=$birthday_date&&password=$password&&date=$date";
         
         send_email($destination, $topic, $text);
     }
@@ -429,6 +431,22 @@
 
         if ($img_path['img'] !== NULL) {
             unlink($img_path['img']);
+        }
+    }
+
+    function execute_query($link, $query, $vartypes, $params) {
+        // $result = $link->execute_query($query, $params); // for PHP 8.2+
+
+        $stmt = $link->prepare($query);
+        $stmt->bind_param($vartypes, ...$params);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result instanceof mysqli_result) {
+            for ($data = []; $row = mysqli_fetch_assoc($result); $data[] = $row);
+            return $data;
+        } else {
+            return $result;
         }
     }
 ?>
