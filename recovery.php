@@ -1,13 +1,9 @@
-<?php 
-    require_once 'connect.php';
-    require_once 'functions.php';
-?>
 <div class="main">
     <div class="form-content">
         <?php if (empty($_GET)) { ?>
             <h1 class="form-header">Password recovery</h1>
             <form method="POST" class="authorization-form">
-                <input type="email" maxlength="25" pattern="([a-z0-9]+)+@[a-z]+\.[a-z]+" required title="username@site.com" name="login" placeholder="email" class="form-input" value="<?php if (!empty($_POST)) echo $_POST['login'] ?>">
+                <input type="email" maxlength="25" pattern="([a-z0-9]+)+@[a-z]+\.[a-z]{2,3}" required title="username@site.com" name="login" placeholder="email" class="form-input" value="<?php if (!empty($_POST)) echo $_POST['login'] ?>">
                 <input type="submit" class="form-submit" value="Restore">
             </form>
         <?php } else { ?>
@@ -46,14 +42,13 @@
         <?php
             if (!empty($_POST['login'])) {
                 $login = $_POST['login'];
-                $query = "SELECT id FROM users WHERE login='$login'";
-                $user = mysqli_fetch_assoc(mysqli_query($link, $query));
-
+                $query = "SELECT login FROM users WHERE login=?";
+                $user = execute_query($link, $query, 's', [$login]);
+                
                 if (!empty($user)) {
-                    $id = $user['id'];
-                    $destination = $_POST['login'];
+                    $destination = $user[0]['login'];
                     $topic = "Password recovery";
-                    $text = "Please follow the link below to set up a new password.\r\n\r\nhttp://localhost/recovery?id=$id";
+                    $text = "Please follow the link below to set up a new password.\r\n\r\nhttp://localhost/recovery?email=$destination";
                     
                     send_email($destination, $topic, $text);
                     $_SESSION['flash'] = "We have sent you an email to change password";
@@ -67,11 +62,13 @@
 
                 if ($password === true) {
                     if ($confirm === true) {
-                        $id = $_GET['id'];
+                        $login = $_GET['email'];
                         $key = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-                        $query = "UPDATE users SET password='$key' WHERE id='$id'";
-                        mysqli_query($link, $query);
+                        $query = "UPDATE users SET password=? WHERE login=?";
+                        $params = [$key, $login];
+                        $vartypes = 'ss';
+                        execute_query($link, $query, $vartypes, $params);
 
                         $_SESSION['recovery'] = "The password has been changed";
                         header("Location: /authorization");
