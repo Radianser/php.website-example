@@ -14,8 +14,6 @@
         <p>** All authorized users participate in the loyalty program</p>
 
         <?php
-            include_once 'connect.php';
-
             if (!empty($_SESSION['user']['id'])) { 
                 $id = $_SESSION['user']['id'];
                 $query = "SELECT * FROM addresses WHERE user_id='$id'";
