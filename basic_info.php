@@ -55,7 +55,7 @@
 </div>
 
 <form method="POST" class="edit-form nickname hidden">
-    <input name="nickname" value="<?php
+    <input name="nickname" pattern="[^ -]+" title="Spaces and dashes are not allowed" value="<?php
         if (!empty($_POST['nickname'])) {
             echo $_POST['nickname'];
         } else {
@@ -66,7 +66,7 @@
 </form>
 
 <form method="POST" class="edit-form phone hidden">
-    <input type="tel" name="phone" class="phone-input" placeholder="+7 (900) 000-00-00" value="<?php
+    <input type="tel" pattern="\+?[0-9]{10,}" name="phone" class="phone-input" placeholder="+7 (900) 000-00-00" value="<?php
         if (!empty($_POST['phone'])) {
             echo $_POST['phone'];
         } else {
@@ -89,18 +89,26 @@
     
     if (!empty($_POST) || !empty($_FILES)) {
         $id = $_SESSION['user']['id'];
+        $vartypes = 'si';
 
         if (!empty($_POST['nickname'])) {
-            $nickname = $_POST['nickname'];
-            $change = "UPDATE users SET nickname='$nickname' WHERE id='$id'";
+            if (strlen($_POST['nickname']) <= 20) {
+                $nickname = $_POST['nickname'];
+                $query = "UPDATE users SET nickname=? WHERE id=?";
+                $params = [$nickname, $id];
+            } else {
+                $error = "Too long nickname. Maximum 20 letters allowed.";
+            }
         }
         if (isset($_POST['phone'])) {
             if (strlen($_POST['phone']) <= 17) {
                 if ($_POST['phone'] == '') {
-                    $change = "UPDATE users SET phone=NULL WHERE id='$id'";
+                    $query = "UPDATE users SET phone=? WHERE id=?";
+                    $params = [null, $id];
                 } else {
                     $phone = $_POST['phone'];
-                    $change = "UPDATE users SET phone='$phone' WHERE id='$id'";
+                    $query = "UPDATE users SET phone=? WHERE id=?";
+                    $params = [$phone, $id];
                 }
             } else {
                 $error = "Too long phone number. Maximum 17 digits allowed.";
@@ -111,15 +119,16 @@
 
             if (!empty($result['path'])) {
                 $path = $result['path'];
-                $change = "UPDATE users SET img='$path' WHERE id='$id'";
+                $query = "UPDATE users SET img=? WHERE id=?";
+                $params = [$path, $id];
             } else {
                 $error = $result['error'];
             }
         }
 
-        if (!empty($change) && empty($error)) {
-            $result = mysqli_query($link, $change) or die(mysqli_error($link));
-            if ($result === true) {
+        if (!empty($query) && empty($error)) {
+            $result = execute_query($link, $query, $vartypes, $params);
+            if ($result === false) {
                 $_SESSION['flash'] = "Data successfully changed";
                 header("Location: /profile/0");
             } else {
