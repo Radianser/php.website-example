@@ -135,10 +135,10 @@
 <?php 
     if (!empty($_POST['delete'])) {
         $delete_id = $_POST['delete'];
-        $delete = "DELETE FROM addresses WHERE id='$delete_id'";
-        $res = mysqli_query($link, $delete) or die(mysqli_error($link));
+        $query = "DELETE FROM addresses WHERE id='$delete_id'";
+        $result = mysqli_query($link, $query) or die(mysqli_error($link));
 
-        if ($res === true) {
+        if ($result === false) {
             $_SESSION['flash'] = 'Address successfully deleted';
             header("Location: /profile/1");
         } else {
@@ -156,10 +156,12 @@
         $appartement = $_POST['appartement'];
         $comment = $_POST['comment'];
 
-        $save = "UPDATE addresses SET name='$name', street='$street', house='$house', entrance='$entrance', floor='$floor', appartement='$appartement', comment='$comment' WHERE id='$save_id'";
-        $res = mysqli_query($link, $save) or die(mysqli_error($link));
+        $query = "UPDATE addresses SET name=?, street=?, house=?, entrance=?, floor=?, appartement=?, comment=? WHERE id=?";
+        $params = [$name, $street, $house, $entrance, $floor, $appartement, $comment, $save_id];
+        $vartypes = 'sssssssi';
+        $result = execute_query($link, $query, $vartypes, $params);
 
-        if ($res === true) {
+        if ($result === false) {
             $_SESSION['flash'] = 'Address successfully saved';
             header("Location: /profile/1");
         } else {
@@ -179,10 +181,12 @@
         $appartement = $_POST['appartement'];
         $comment = $_POST['comment'];
         
-        $add = "INSERT INTO addresses SET name='$name', street='$street', house='$house', entrance='$entrance', floor='$floor', appartement='$appartement', comment='$comment', user_id='$id'";
-        $res = mysqli_query($link, $add) or die(mysqli_error($link));
+        $query = "INSERT INTO addresses SET name=?, street=?, house=?, entrance=?, floor=?, appartement=?, comment=?, user_id=?";
+        $params = [$name, $street, $house, $entrance, $floor, $appartement, $comment, $id];
+        $vartypes = 'sssssssi';
+        $result = execute_query($link, $query, $vartypes, $params);
 
-        if ($res === true) {
+        if ($result === false) {
             $_SESSION['flash'] = 'Address successfully added';
             header("Location: /profile/1");
         } else {
