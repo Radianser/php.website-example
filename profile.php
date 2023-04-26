@@ -1,4 +1,3 @@
-<?php include 'connect.php' ?>
 <?php if (!empty($_SESSION['user']['login'])) { ?>
     <?php
         $id = $_SESSION['user']['id'];
